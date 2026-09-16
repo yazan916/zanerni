@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zanerni زنرني - تجارة وتوزيع العدد والأدوات الصناعية | الدانة - إدلب</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <meta name="title" content="Zanerni زنرني - تجارة وتوزيع العدد والأدوات الصناعية | الدانة - إدلب">
+    <meta name="description" content="متجر زنرني Zanerni المتخصص في تجارة وتوزيع أدوات NKTOP و DONG Z، المولدات الصامتة، ومعدات الورش والمقاولات في الدانة إدلب.">
+    <meta name="keywords" content="زنرني, Zanerni, NKTOP, DONG Z, أدوات يدوية, أدوات كهربائية, الدانة, إدلب, مولدات صامتة">
+    <meta name="robots" content="index, follow">
+
+    <!-- Schema.org / Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HardwareStore",
+      "name": "Zanerni - زنرني للعدد والأدوات الصناعية",
+      "image": "https://i.postimg.cc/MfQ0SjpL/IMG-20260915-WA0038.jpg",
+      "email": "shrktznrny@gmail.com",
+      "telephone": "+963981993161",
+      "sameAs": ["https://www.facebook.com/shrkt.znrny"],
+      "hasMap": "https://maps.app.goo.gl/JddSEttFfBUnYbos8",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "الدانة",
+        "addressRegion": "إدلب",
+        "addressCountry": "SY"
+      },
+      "url": "https://zanerni.com",
+      "priceRange": "$$"
+    }
+    </script>
+
+    <!-- Tailwind CSS & FontAwesome CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js Engine -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; background-color: #05070d; color: #f8fafc; }
+
+        /* Animated Starry & Shooting Stars Canvas */
+        #stars-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Dark Cards */
+        .solid-card {
+            background-color: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .solid-card:hover {
+            border-color: #dc2626;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Marquee Motion */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Floating WhatsApp Pulse */
+        .pulse-whatsapp {
+            animation: pulseWA 2s infinite;
+        }
+        @keyframes pulseWA {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #05070d; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
+    </style>
+</head>
+<body x-data="zanerniStore()">
+
+    <!-- Interactive Falling Stars Canvas Background -->
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- Top Toast Notification -->
+    <div x-show="toastShow" x-transition 
+         :class="toastType === 'error' ? 'bg-red-600' : 'bg-emerald-600'"
+         class="fixed top-4 left-1/2 -translate-x-1/2 z-50 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2" x-cloak>
+        <i :class="toastType === 'error' ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check'"></i>
+        <span x-text="toastMessage"></span>
+    </div>
+
+    <!-- Top Announcement Header -->
+    <div class="bg-black/80 border-b border-neutral-800 text-neutral-300 text-xs py-2 px-4 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="font-bold text-amber-400">المركز الرئيسي: الدانة - إدلب | شحن ودفع عند الاستلام</span>
+            </span>
+            <div class="hidden md:flex items-center gap-5 text-neutral-400">
+                <a href="https://maps.app.goo.gl/JddSEttFfBUnYbos8" target="_blank" class="hover:text-red-500 transition"><i class="fa-solid fa-location-dot text-red-500 ml-1"></i> موقعنا على الخريطة</a>
+                <a href="mailto:shrktznrny@gmail.com" class="hover:text-amber-400 transition"><i class="fa-solid fa-envelope text-amber-400 ml-1"></i> shrktznrny@gmail.com</a>
+                <a href="https://www.facebook.com/shrkt.znrny" target="_blank" class="hover:text-blue-400 transition"><i class="fa-brands fa-facebook text-blue-500 ml-1"></i> فيسبوك المتجر</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Marquee Ticker Bar -->
+    <div class="bg-neutral-900/90 border-b border-neutral-800 overflow-hidden py-1.5 text-xs text-amber-300 font-bold">
+        <div class="animate-marquee flex gap-12">
+            <span>⚡ كفالة وجودة عالية على كافة المنتجات</span>
+            <span>🚛 شحن سريع إلى الدانة وكافة مناطق إدلب</span>
+            <span>💲 اعتماد الأسعار والطلب المباشر بالدولار الأمريكي</span>
+            <span>🔧 الموزع المعتمد لمنتجات NKTOP و DONG Z و Power Line</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header with Logo Image -->
+    <header class="bg-black/90 border-b border-neutral-800 sticky top-0 z-40 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            
+            <!-- Logo Image & Identity -->
+            <a href="#" class="flex items-center gap-3">
+                <img src="https://i.postimg.cc/MfQ0SjpL/IMG-20260915-WA0038.jpg" alt="Zanerni Logo" class="w-12 h-12 rounded-xl object-cover border border-neutral-700">
+                <div>
+                    <h1 class="text-2xl font-black text-white flex items-center gap-2">
+                        ZANERNI <span class="text-xs bg-amber-400 text-black font-black px-2 py-0.5 rounded-lg">زنرني</span>
+                    </h1>
+                    <p class="text-[11px] text-neutral-400 font-medium">NKTOP / DONG Z / Power Line</p>
+                </div>
+            </a>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button @click="shareCatalog()" class="bg-neutral-900 border border-neutral-800 text-amber-400 font-bold p-2.5 rounded-xl text-xs flex items-center gap-1 hover:bg-neutral-800">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span class="hidden md:inline">مشاركة الكتالوج</span>
+                </button>
+
+                <button @click="cartModalOpen = true" 
+                        class="relative bg-red-600 hover:bg-red-700 text-white font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2.5 transition active:scale-95 shadow-lg shadow-red-900/50">
+                    <i class="fa-solid fa-cart-shopping text-amber-300"></i>
+                    <span class="hidden sm:inline text-sm">السلة</span>
+                    <span x-show="cartTotalItems > 0" 
+                          class="bg-amber-400 text-black font-black text-xs w-6 h-6 rounded-full flex items-center justify-center" 
+                          x-text="cartTotalItems"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner & Location Quick Specs -->
+    <section class="py-6 px-4 max-w-7xl mx-auto">
+        <div class="solid-card rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div class="max-w-2xl">
+                <span class="bg-neutral-900/80 text-red-500 border border-neutral-800 text-xs font-black px-3 py-1 rounded-full inline-block mb-3">
+                    ⚡ الكتالوج الرسمي 2026
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-2">أضخم تشكيلة معدات وأدوات صناعية في الدانة وإدلب</h2>
+                <p class="text-neutral-300 text-xs sm:text-sm mb-4">تصفح جميع الأدوات المتاحة بالأسعار المباشرة بالدولار واطلبها فوراً عبر الواتساب.</p>
+                
+                <a href="https://maps.app.goo.gl/JddSEttFfBUnYbos8" target="_blank" 
+                   class="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-amber-400 text-xs font-bold px-4 py-2 rounded-xl transition">
+                    <i class="fa-solid fa-map-location-dot text-red-500"></i>
+                    <span>عرض موقع المتجر على خرائط جوجل (Google Maps)</span>
+                </a>
+            </div>
+            
+            <div class="flex gap-4">
+                <div class="text-center p-3 bg-neutral-900/80 rounded-xl border border-neutral-800 min-w-[90px]">
+                    <div class="text-xs text-neutral-400">المنتجات</div>
+                    <div class="text-xl font-black text-amber-400" x-text="products.length"></div>
+                </div>
+                <div class="text-center p-3 bg-neutral-900/80 rounded-xl border border-neutral-800 min-w-[90px]">
+                    <div class="text-xs text-neutral-400">العملة</div>
+                    <div class="text-xl font-black text-emerald-400">$ USD</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filters Toolbar -->
+    <section class="sticky top-[68px] z-30 py-3 px-4 bg-black/80 border-b border-neutral-800 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row gap-3 items-center justify-between">
+            <div class="relative w-full sm:w-80">
+                <input type="text" x-model="searchQuery" placeholder="ابحث باسم المنتج، الماركة..." 
+                       class="w-full pr-10 pl-4 py-2 bg-neutral-900/90 border border-neutral-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-600">
+                <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-neutral-400"></i>
+            </div>
+
+            <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar">
+                <template x-for="cat in categories" :key="cat">
+                    <button @click="selectedCategory = cat" 
+                            :class="selectedCategory === cat ? 'bg-red-600 text-white font-black' : 'bg-neutral-900/90 text-neutral-400 hover:bg-neutral-800'"
+                            class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition" x-text="cat"></button>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Catalog Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <template x-for="product in filteredProducts" :key="product.id">
+                <div class="solid-card rounded-2xl p-3 flex flex-col justify-between relative transition duration-200"
+                     :class="!product.isAvailable && 'opacity-70'">
+                    <div>
+                        <div class="relative bg-neutral-900/90 rounded-xl overflow-hidden mb-2 h-36 flex items-center justify-center p-2 border border-neutral-800">
+                            <img :src="product.image" :alt="product.name" loading="lazy" class="object-contain max-h-full max-w-full" @error="$el.src='images/catalog.jpg'">
+                            <span :class="product.isAvailable ? 'bg-emerald-600' : 'bg-neutral-700'" class="absolute top-2 right-2 text-[9px] font-black text-white px-2 py-0.5 rounded-full" x-text="product.status"></span>
+                        </div>
+
+                        <span class="text-[10px] text-amber-400 font-bold block mb-1" x-text="product.brand"></span>
+                        <h3 class="font-extrabold text-xs text-white line-clamp-2 mb-1 min-h-[32px]" x-text="product.name"></h3>
+                        <p class="text-[10px] text-neutral-400 line-clamp-1 mb-2" x-text="product.details"></p>
+                    </div>
+
+                    <div class="pt-2 border-t border-neutral-800 flex items-center justify-between">
+                        <span class="text-sm font-black text-amber-400" x-text="product.price"></span>
+                        <button @click="addToCart(product)" :disabled="!product.isAvailable" 
+                                :class="product.isAvailable ? 'bg-red-600 hover:bg-red-700 text-white cursor-pointer' : 'bg-neutral-800 text-neutral-500 cursor-not-allowed opacity-50'"
+                                class="p-2 rounded-lg text-xs font-bold transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </main>
+
+    <!-- Floating WhatsApp Action Button -->
+    <a href="https://wa.me/963981993161" target="_blank" 
+       class="fixed bottom-6 left-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl pulse-whatsapp transition">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Shopping Cart Modal -->
+    <div x-show="cartModalOpen" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm" x-cloak>
+        <div class="fixed inset-y-0 left-0 max-w-full flex">
+            <div class="w-screen max-w-md bg-neutral-900 border-r border-neutral-800 text-white flex flex-col justify-between">
+                
+                <div class="p-4 bg-black flex justify-between items-center border-b border-neutral-800">
+                    <h3 class="font-black text-base flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-amber-400"></i> سلة الشراء</h3>
+                    <button @click="cartModalOpen = false" class="text-neutral-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-4 space-y-3 divide-y divide-neutral-800">
+                    <template x-for="item in cart" :key="item.id">
+                        <div class="pt-3 flex items-center justify-between gap-3">
+                            <img :src="item.image" class="w-12 h-12 object-contain bg-black rounded-lg p-1 border border-neutral-800">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-xs text-white" x-text="item.name"></h4>
+                                <span class="text-xs text-amber-400 font-bold" x-text="item.price"></span>
+                            </div>
+                            <div class="flex items-center border border-neutral-700 rounded-lg bg-black">
+                                <button @click="updateQuantity(item.id, -1)" class="px-2 py-0.5 text-xs text-neutral-300">-</button>
+                                <span class="px-2 text-xs font-bold text-white" x-text="item.quantity"></span>
+                                <button @click="updateQuantity(item.id, 1)" class="px-2 py-0.5 text-xs text-neutral-300">+</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="p-4 bg-black border-t border-neutral-800 space-y-3">
+                    <div class="flex justify-between items-center font-black text-base">
+                        <span>المجموع الكلي:</span>
+                        <span class="text-amber-400" x-text="'$' + cartTotalPrice.toFixed(2)"></span>
+                    </div>
+                    <button @click="sendWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> إرسال الطلب عبر الواتساب
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-black/90 text-neutral-400 text-xs py-8 px-4 border-t border-neutral-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div>
+                <h4 class="text-white font-black text-sm mb-2">ZANERNI - زنرني</h4>
+                <p>توزيع المعدات والأدوات الصناعية في الدانة وإدلب. وكيل NKTOP و DONG Z.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-black text-sm mb-2">تواصل مباشر</h4>
+                <p class="mb-1"><i class="fa-brands fa-whatsapp text-emerald-500 ml-1"></i> واتساب: +963981993161</p>
+                <p class="mb-1"><i class="fa-solid fa-envelope text-amber-400 ml-1"></i> shrktznrny@gmail.com</p>
+                <p><i class="fa-brands fa-facebook text-blue-500 ml-1"></i> <a href="https://www.facebook.com/shrkt.znrny" target="_blank" class="hover:underline">shrkt.znrny</a></p>
+            </div>
+            <div>
+                <h4 class="text-white font-black text-sm mb-2">الموقع على الخريطة</h4>
+                <p class="mb-2"><i class="fa-solid fa-location-dot text-red-500 ml-1"></i> الدانة - إدلب، سوريا</p>
+                <a href="https://maps.app.goo.gl/JddSEttFfBUnYbos8" target="_blank" class="text-amber-400 hover:underline">افتح الموقع في Google Maps 📍</a>
+            </div>
+        </div>
+        <div class="text-center pt-4 border-t border-neutral-900 text-neutral-600">
+            جميع الحقوق محفوظة © 2026 لمتجر Zanerni زنرني
+        </div>
+    </footer>
+
+    <!-- Canvas Falling & Sparkling Stars Engine -->
+    <script>
+        const canvas = document.getElementById('stars-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            const numStars = Math.floor((canvas.width * canvas.height) / 2500);
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+
+        function addShootingStar() {
+            if (Math.random() < 0.03) {
+                shootingStars.push({
+                    x: Math.random() * canvas.width,
+                    y: 0,
+                    length: Math.random() * 80 + 40,
+                    speed: Math.random() * 10 + 6,
+                    angle: Math.PI / 4,
+                    alpha: 1
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(245, 158, 11, ${star.alpha})`;
+                ctx.fill();
+
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+            });
+
+            addShootingStar();
+            shootingStars.forEach((s, index) => {
+                const endX = s.x + Math.cos(s.angle) * s.length;
+                const endY = s.y + Math.sin(s.angle) * s.length;
+
+                const grad = ctx.createLinearGradient(s.x, s.y, endX, endY);
+                grad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.beginPath();
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 1.8;
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                s.x += Math.cos(s.angle) * s.speed;
+                s.y += Math.sin(s.angle) * s.speed;
+                s.alpha -= 0.015;
+
+                if (s.alpha <= 0 || s.y > canvas.height) {
+                    shootingStars.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+    </script>
+
+    <!-- Alpine Store Logic Engine -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('zanerniStore', () => ({
+                SHEET_ID: '1UpuaIUt6nWwJJUlaZzGY6ffEDZp2htQNJ1WJ-DoOrt0',
+                products: [],
+                searchQuery: '',
+                selectedCategory: 'الكل',
+                categories: ['الكل', 'أدوات يدوية', 'أدوات كهربائية', 'معدات وطاقة', 'ملحقات أدوات'],
+                cart: JSON.parse(localStorage.getItem('zanerni_cart_v4')) || [],
+                cartModalOpen: false,
+                toastShow: false,
+                toastMessage: '',
+                toastType: 'success',
+
+                init() { this.fetchProducts(); },
+
+                async fetchProducts() {
+                    try {
+                        const url = `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:json`;
+                        const res = await fetch(url);
+                        const text = await res.text();
+                        const json = JSON.parse(text.substring(47, text.length - 2));
+                        
+                        this.products = json.table.rows.map((row, idx) => {
+                            const c = row.c;
+                            return {
+                                id: idx,
+                                name: c[0] ? c[0].v : '',
+                                category: c[1] ? c[1].v : '',
+                                brand: c[2] ? c[2].v : '',
+                                price: c[3] ? c[3].v : '0$',
+                                details: c[4] ? c[4].v : '',
+                                image: c[5] ? c[5].v : 'images/catalog.jpg',
+                                status: c[6] ? c[6].v : 'متوفر',
+                                isAvailable: c[6] ? c[6].v.trim() === 'متوفر' : true
+                            };
+                        }).filter(p => p.name.trim() !== '');
+                    } catch (err) { console.error(err); }
+                },
+
+                get filteredProducts() {
+                    return this.products.filter(p => {
+                        const catMatch = this.selectedCategory === 'الكل' || p.category === this.selectedCategory;
+                        const searchMatch = p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                            p.brand.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        return catMatch && searchMatch;
+                    });
+                },
+
+                parsePrice(pStr) { return parseFloat(pStr.replace(/[^0-9.]/g, '')) || 0; },
+
+                addToCart(p) {
+                    if (!p.isAvailable) {
+                        this.triggerToast(`عذراً، المنتج "${p.name}" غير متوفر حالياً`, 'error');
+                        return;
+                    }
+
+                    const found = this.cart.find(i => i.id === p.id);
+                    if (found) found.quantity++;
+                    else this.cart.push({ ...p, quantity: 1 });
+                    this.saveCart();
+                    this.triggerToast(`تمت إضافة "${p.name}" إلى السلة`, 'success');
+                },
+
+                triggerToast(msg, type = 'success') {
+                    this.toastMessage = msg;
+                    this.toastType = type;
+                    this.toastShow = true;
+                    setTimeout(() => { this.toastShow = false; }, 2500);
+                },
+
+                shareCatalog() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Zanerni - كتالوج الأدوات والمعدات',
+                            url: window.location.href
+                        });
+                    } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        this.triggerToast('تم نسخ رابط الكتالوج بنجاح', 'success');
+                    }
+                },
+
+                updateQuantity(id, change) {
+                    const item = this.cart.find(i => i.id === id);
+                    if (item) {
+                        item.quantity += change;
+                        if (item.quantity <= 0) this.cart = this.cart.filter(i => i.id !== id);
+                    }
+                    this.saveCart();
+                },
+
+                saveCart() { localStorage.setItem('zanerni_cart_v4', JSON.stringify(this.cart)); },
+
+                get cartTotalItems() { return this.cart.reduce((s, i) => s + i.quantity, 0); },
+                get cartTotalPrice() { return this.cart.reduce((s, i) => s + (this.parsePrice(i.price) * i.quantity), 0); },
+
+                sendWhatsAppOrder() {
+                    if (this.cart.length === 0) return;
+                    let msg = "مرحباً متجر Zanerni (زنرني)، أرغب بتأكيد الطلبية التالية:\n\n";
+                    this.cart.forEach((i, idx) => { msg += `${idx + 1}. ${i.name} | الكمية: ${i.quantity} | السعر: ${i.price}\n`; });
+                    msg += `\n*المجموع الإجمالي: $${this.cartTotalPrice.toFixed(2)}*`;
+                    window.open(`https://wa.me/963981993161?text=${encodeURIComponent(msg)}`, '_blank');
+                }
+            }));
+        });
+    </script>
+</body>
+</html>
